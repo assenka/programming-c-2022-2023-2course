@@ -7,23 +7,25 @@ class Array
 private:
     T* data;
     int capacity;
-	int count;
-	void expand(int count = 1);
-	void swap(int posi, int posj);
-	int ind(int index);
+    int count;
+    void swap(int posi, int posj);
+    int ind(int index);
+    void pushend(T element);
+    void pushbegin(T element);
 public:
-    Array(T arr[], int capacity);
+    Array(int capacity);
     void print();
-    void expand();
-    Array(int capacity = 10);
-	Array(const Array& list);
-	~Array();
-	void pushend(T element);
-	void pushbegin(T element);
-	void insert(T element, int position);
-	T extractbegin();
-	T extractend();
-	T extract(int position);
+    Array(const Array& list);
+    ~Array();
+    T extractbegin();
+    T extractend();
+    T At(int pos);
+    int Size();
+    bool Empty();
+    int* Data();
+//    T& operator=(const T& arr);
     T& operator[](int pos);
+    const T& operator[](int pos) const;
 };
+
 
