@@ -45,3 +45,4 @@ public:
     friend Kvaternion operator/(double n, const Kvaternion& k2);
     friend std::ostream& operator<<(std::ostream& stream, const Kvaternion& k);
 };
+
