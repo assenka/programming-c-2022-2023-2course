@@ -15,12 +15,7 @@ Kvaternion::Kvaternion(double re, double im_x, double im_y, double im_z){
     this->im_z = im_z;
 }
 
-Kvaternion::~Kvaternion(){
-    this->re = 0;
-    this->im_x = 0;
-    this->im_y = 0;
-    this->im_z = 0;
-}
+Kvaternion::~Kvaternion(){}
 
 double Kvaternion::getRe(){
     return this->re;
@@ -84,9 +79,9 @@ Kvaternion operator-(const Kvaternion& k1, const Kvaternion& k2){
 
 Kvaternion operator*(const Kvaternion& k1, const Kvaternion& k2){
     return (k1.re*k2.re - k1.im_x*k2.im_x - k1.im_y*k2.im_y - k1.im_z*k2.im_z,
-            k1.re*k2.im_x + k1.im_x*k2.re + k1.im_y*k2.im_z - k1.im_z*k2.im_y,
-            k1.re*k2.im_y + k1.im_y*k2.re + k1.im_z*k2.im_x - k1.im_x*k2.im_z,
-            k1.re*k2.im_z + k1.im_z*k2.re + k1.im_x*k2.im_y - k1.im_y*k2.im_x);
+             k1.re*k2.im_x + k1.im_x*k2.re + k1.im_y*k2.im_z - k1.im_z*k2.im_y,
+             k1.re*k2.im_y + k1.im_y*k2.re + k1.im_z*k2.im_x - k1.im_x*k2.im_z,
+             k1.re*k2.im_z + k1.im_z*k2.re + k1.im_x*k2.im_y - k1.im_y*k2.im_x);
 }
 
 Kvaternion operator/(const Kvaternion& k1, const Kvaternion& k2){
@@ -187,6 +182,7 @@ std::ostream& operator<<(std::ostream& stream, const Kvaternion& k){
     stream << "(" << k.re << ", " << k.im_x << ", " << k.im_y << ", " << k.im_z <<")";
     return stream;
 }
+
 
 
 
