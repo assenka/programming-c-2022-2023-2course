@@ -4,37 +4,34 @@
 using namespace std;
 
 template <typename T>
-Array<T>::Array(T arr[], int capacity)
+Array<T>::Array(int count)
 {
-    data = new T[capacity];
-    for (int i = 0; i < this->capacity; i++)
-        data[i] = arr[i];
-}
-
-template <typename T>
-Array<T>::Array(const Array<T>& list)
-{
-    this->capacity = list.count;
-    this->count = list.count;
-    this->data = new T[list.count];
-    for (int i = 0; i < list.count; ++i)
-    {
-        this->data[i] = list.data[i];
+    this->capacity = count*2;
+    this->count = count;
+    this->data = new T[capacity];
+    for(int i = 0; i < this->count; i++){
+        this->data[i] = 0;
     }
 }
 
 template <typename T>
-void Array<T>::expand(int count)
+Array<T>::Array(const Array<T>& arr)
 {
-    T* newdata = new T[count + this->capacity];
-    for (int i = 0; i < this->capacity; ++i)
+    this->capacity = arr.capacity;
+    this->count = arr.count;
+    this->data = new T[arr.count];
+    for (int i = 0; i < arr.count; ++i)
     {
-        newdata[i] = this->data[i];
+        this->data[i] = arr.data[i];
     }
+}
+
+template <typename T>
+Array<T>::~Array()
+{
     delete[] this->data;
-    this->data = newdata;
-    this->capacity += count;
 }
+
 
 template <typename T>
 void Array<T>::swap(int posi, int posj)
@@ -50,36 +47,15 @@ int Array<T>::ind(int index)
 {
     if (index < 0)
     {
-        pushbegin(0);
         return 0;
     }
     if (index >= this->count)
     {
-        pushend(0);
-        return this->count - 1;
+        return 0;
     }
     return index;
 }
 
-template <typename T>
-Array<T>::Array(int capacity)
-{
-    this->capacity = capacity;
-    this->count = 0;
-    this->data = new T[capacity];
-}
-
-template <typename T>
-Array<T>::~Array()
-{
-    this->count = 0;
-    this->capacity = 0;
-    for (int i = 0; i < this->capacity; ++i)
-    {
-        this->data[i] = 0;
-    }
-    delete[] this->data;
-}
 
 template <typename T>
 void Array<T>::pushend(T element)
@@ -110,27 +86,6 @@ void Array<T>::pushbegin(T element)
     this->count++;
 }
 
-template <typename T>
-void Array<T>::insert(T element, int position)
-{
-    if(this->count == this->capacity)
-    {
-        expand(this->capacity);
-    }
-    T* newdata = new T[this->capacity];
-    for(int i = 0; i < position; ++i)
-    {
-        newdata[i] = this->data[i];
-    }
-    newdata[position] = element;
-    for(int i = position + 1; i < this->capacity; ++i)
-    {
-        newdata[i] = this->data[i - 1];
-    }
-    delete[] data;
-    this->data = newdata;
-    this->count++;
-}
 
 template <typename T>
 T Array<T>::extractend()
@@ -154,35 +109,31 @@ T Array<T>::extractbegin()
     return extract;
 }
 
-template <typename T>
-T Array<T>::extract(int position)
-{
-    this->count--;
-    if(position >= this->capacity)
-    {
-        pushend(0);
-    }
-    else if(position < 0)
-    {
-        pushbegin(0);
-    }
-    T* newdata = new T[this->count];
-    for(int i = 0; i < position; ++i)
-    {
-        newdata[i] = this->data[i];
-    }
-    T extract = this->data[position];
-    for(int i = position; i < this->capacity; ++i)
-    {
-        newdata[i] = this->data[i + 1];
-    }
-    delete[] data;
-    this->data = newdata;
-    return extract;
-}
 
 template <typename T>
 T& Array<T>::operator[](int pos)
+{
+    return data[ind(pos)];
+}
+
+//template <typename T>
+//T& Array<T>::operator=(const T& arr)
+//{
+//    if (this == &arr) {
+//        return *this;
+//    }
+//    if (arr.count > this->capacity) {
+//        this->capacity = arr.capacity * 2;
+//    }
+//    for (int i = 0; i < arr.count; i++){
+//        this->data[i] = arr[i];
+//    }
+//    return *this;
+//}
+
+
+template <typename T>
+const T& Array<T>::operator[] (int pos) const
 {
     return data[ind(pos)];
 }
@@ -193,4 +144,38 @@ void Array<T>::print()
     for (int i = 0; i < this->count; i++)
         cout << " " << *(data + i);
     cout << endl;
+}
+
+
+template <typename T>
+T Array<T>::At(int pos)
+{
+    if (pos >= capacity || pos < 0) {
+        return 0;
+    }
+    else {
+        return this->data[pos];
+    }
+}
+
+template <typename T>
+int Array<T>::Size()
+{
+    return this->count;
+}
+
+template <typename T>
+bool Array<T>::Empty()
+{
+    if (this->count == 0) {
+        return 0;
+    }
+    return 1;
+}
+
+template <typename T>
+int* Array<T>::Data()
+{
+    int* a = data;
+    return a;
 }
