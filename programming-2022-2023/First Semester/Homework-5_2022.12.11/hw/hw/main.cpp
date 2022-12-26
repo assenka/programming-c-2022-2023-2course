@@ -7,29 +7,28 @@ private:
     int capacity;
     T *data;
 public:
-    Vector(){this->capacity = 0;  this->count = 0;}
+    Vector(){this->capacity = 0;  this->count = 0; this->data = new T[this->count * 2];}
     
-    Vector(int count){this->capacity = 2 * count; this->count = capacity;}
+    Vector(int count){this->capacity = 2 * count; this->count = count; this-> data = new T[this->count * 2];}
     
     Vector(const Vector& v){
-        capacity = v.count * 2;
-        this->data = new T[v.count * 2];
+        this->capacity = v.count * 2;
+        data = new T[v.count * 2];
         for (int i = 0 ; i < v.count; i++){
             data[i] = v[i];
         }
     }
     
-    ~Vector(){};
-    
-    int size(){
-        return this->count;
-    }
+    ~Vector(){
+        delete[] this->data;
+    };
     
     void expand(int n){
         T* newdata = new T[2 * n];
-        for (int i = 0; i < this->count; i++){
+        for (int i = 0; i < this->count; ++i){
             newdata[i] = this->data[i];
         }
+        delete[] this->data;
         this->data = newdata;
         this->capacity = 2 * n;
     }
@@ -46,15 +45,15 @@ public:
         if (this->count == this->capacity){
             expand(this->capacity);
         }
-        this->data[0] = elem;
-        for (int i = 1; i < this->count; i++){
-            this->data[i - 1] = data[i];
-        };
         this->count++;
+        for (int i = this->count; i > 0; --i){
+            this->data[i] = data[i - 1];
+        };
+        this->data[0] = elem;
     }
     
-    int MaxSize(){
-        return this->capacity;
+    int Size(){
+        return this->count;
     }
     
     void clear(){
@@ -62,20 +61,34 @@ public:
         this->data = nullptr;
     }
     
-    void insert(T elem, int position){
+    void insert (T elem, int position) {
         if (this->count == this->capacity){
             expand(this->capacity);
         }
-        for (int i = this; i > position; i--){
+        for (int i = this->capacity; i > position; i--){
             this->data[i] = this->data[i - 1];
         };
         this->data[position] = elem;
     }
     
-    T& operator[](int position){
-        return this->data[position];
+    T& operator[] (int pos) {
+        return this->data[pos];
+    }
+    
+    const T& operator[] (int pos) const {
+        return this->data[pos];
+    }
+    
+    friend std::ostream& operator<<(std::ostream& stream, const Vector& v){
+        stream << "{";
+        for (int i = 0; i < v.count; i++) {
+            stream << v.data[i] << ", ";
+        }
+        stream << "}";
+        return stream;
     }
 };
+
 
 int main(){
     Vector<int> a;
@@ -84,17 +97,22 @@ int main(){
         a.PushBack(i*i);
     }
     
+    std::cout << a << std::endl;
+    
     a.PushFront(88);
     a.PushBack(88);
+    a.insert(999, 5);
     
-    for (int i = 0; i < 17; i++){
-        std::cout << a[i] << " ";
-    }
+    std::cout << a << std::endl;
+    
+    std::cout << "size: " << a.Size() << std::endl;
     
     a.clear();
     
-    std::cout << a.size() << " ";
+    std::cout << a << std::endl;
+    
+//    const Vector<int> b(10);
+//    b[0] = 1;
         
     return 0;
 }
-
