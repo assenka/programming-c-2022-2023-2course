@@ -1,5 +1,4 @@
 #include <iostream>
-#include <typeinfo>
 #include <vector>
 using namespace std;
 
@@ -107,7 +106,7 @@ public:
     virtual ~Character(){};
     void Take(Object obj){};
     void Remove(Object obj){};
-    virtual void Zloty(){cout << this->zloty<< endl;};
+    virtual void Zloty(){cout << "Character have " << this->zloty<< " zloty." << endl;};
     virtual void Trade(){};
     void Eat(Food base_food){
         cout << "+" << base_food.get_healing() << "health. + " << base_food.get_satiety() << "to satiety." << endl;
