@@ -1,22 +1,23 @@
 #include "array.cpp"
+#include <iostream>
 
 using namespace std;
 
 int main()
 {
     Array <int> a(20);
-    a.pushbegin(3);
+    a[0] = 1;
+    a[1] = 2;
+    cout << a[28] << endl;
     a.print();
-    a.pushend(8);
+    cout << "Size: " << a.Size() << endl;
+    cout << a.Empty() << endl;
+    cout << a.Data() << endl;
+    *a.Data() = 33;
     a.print();
-    a.extractbegin();
-    a.print();
-    a.extractend();
-    a.print();
-    a.insert(1, 2);
-    a.print();
-    cout << a[0] << endl;
-    a.extract(2);
-    a.print();
+//    const Array<int> b(10);
+//    b[0] = 44;
+//    b[0] = 6;
     return 0;
 }
+
